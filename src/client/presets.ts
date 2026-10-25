@@ -208,6 +208,11 @@ export function hostTokenVariables(palette: Palette): Record<string, string> {
     // The user message bubble. QQ2006 draws its own text on plain white, so the
     // Host's tinted bubble fill is replaced instead of tinted further.
     '--dsw-specific-bubble': '#ffffff',
+    // Settings navigation: the shipped active/hover fills are warm neutrals
+    // that read as "dirty" on the blue window. A white selected cell and a pale
+    // blue hover keep the 2006 look.
+    '--dsw-specific-sidebar-nav-item-active': '#ffffff',
+    '--dsw-specific-sidebar-nav-item-hover': '#e6f2fe',
   }
 }
 
