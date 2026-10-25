@@ -319,9 +319,17 @@ body[data-dsh-qq2006] :has(> [data-composer-card]) {
 body[data-dsh-qq2006] [data-queue-dock] {
   margin-bottom: 0 !important;
 }
-/* The Host rounds only the top of the queue panel; as its own strip it is square. */
-body[data-dsh-qq2006] [data-queue-dock] > * {
+/* The queue strip is its own 2006 band: square inside and out, plain white
+   instead of the translucent menu material, with a bottom hairline. */
+body[data-dsh-qq2006] [data-queue-dock] {
+  --dsw-specific-menu: #ffffff;
+  --dsw-menu-backdrop-filter: none;
+}
+body[data-dsh-qq2006] [data-queue-dock] * {
   border-radius: 0 !important;
+}
+body[data-dsh-qq2006] [data-queue-dock] > *::after {
+  border-bottom: 1px solid var(--dsw-alias-border-l1, #dfe6ee) !important;
 }
 
 /* ------------------------------------------------------------------ */
