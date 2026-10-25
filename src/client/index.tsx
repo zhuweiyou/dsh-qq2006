@@ -167,6 +167,28 @@ export function apply(ctx: ClientContext): void {
     let disposeTokens: (() => void) | null = null
     let restoreTheme: (() => void) | null = null
 
+    /**
+     * Keep the shell on the light palette while the skin is on.
+     *
+     * QQ2006 has exactly one palette, and the Host ships separate dark tokens
+     * plus dark-only component rules (`body[data-ds-dark-theme] …`). Mixing them
+     * with the skin leaves dark chips and menus on a light window, so the skin
+     * pins the preference to `light` for as long as it is enabled — including
+     * when the user picks dark afterwards. The last non-light choice is
+     * remembered and restored the moment the skin is switched off.
+     */
+    const enforceLight = (): void => {
+      if (!skinStore.get().enabled) return
+      const current = ctx.theme.getTheme().preference
+      if (current === 'light') return
+      // Remember the newest non-light choice so switching the skin off restores
+      // whatever the user last asked for.
+      restoreTheme = () => {
+        ctx.theme.setTheme(current)
+      }
+      ctx.theme.setTheme('light')
+    }
+
     const sync = (): void => {
       const body = document.body
       const state = skinStore.get()
@@ -184,27 +206,19 @@ export function apply(ctx: ClientContext): void {
       if (state.retroFont) body.setAttribute(FONT_ATTRIBUTE, '1')
       else body.removeAttribute(FONT_ATTRIBUTE)
 
-      // QQ2006 has exactly one palette, so the skin runs on the light
-      // preference; the previous choice is restored when the skin goes off.
-      if (restoreTheme === null) {
-        const current = ctx.theme.getTheme().preference
-        if (current !== 'light') {
-          ctx.theme.setTheme('light')
-          restoreTheme = () => {
-            ctx.theme.setTheme(current)
-          }
-        }
-      }
+      enforceLight()
 
       // Same source id: calling again replaces the layer instead of stacking a
       // second one, which keeps memory and token order stable.
       disposeTokens = ctx.theme.overrideTokens(PACKAGE, tokenOverrides(PALETTES[state.preset]))
     }
 
-    const off = skinStore.subscribe(sync)
+    const offStore = skinStore.subscribe(sync)
+    const offTheme = ctx.on('theme/change', enforceLight)
     sync()
     return () => {
-      off()
+      offStore()
+      offTheme()
       disposeTokens?.()
       disposeTokens = null
       restoreTheme?.()
