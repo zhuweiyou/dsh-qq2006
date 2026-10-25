@@ -57,3 +57,12 @@ export function translate(active: string): Translate {
   const english = active.toLowerCase().startsWith('en')
   return (zh, en) => (english ? en : zh)
 }
+
+/**
+ * Build a translator from the *current* locale, for non-React callers.
+ * @param ctx - client context.
+ * @returns the translate function.
+ */
+export function translateNow(ctx: ClientContext): Translate {
+  return translate(readActive(ctx))
+}

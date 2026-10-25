@@ -28,6 +28,8 @@
 import type { ReactNode } from 'react'
 
 import { ASSET_VARIABLES } from './assets'
+import { translateNow } from './i18n'
+import { dismissNotice, showNotice } from './notice'
 import { hostTokenVariables, paletteVariables, PALETTES, tokenOverrides } from './presets'
 import { installStorageSync, skinStore } from './store'
 import type { ClientContext } from './types'
@@ -37,6 +39,7 @@ import { ComposerToolbar } from './components/ComposerToolbar'
 import { BrandMark, BrandName } from './components/SidebarBits'
 import { SkinPage } from './components/SkinPage'
 import { SkinRow } from './components/SkinRow'
+import { ThemeNotice } from './components/ThemeNotice'
 
 /** This package's name: the ModuleLoader id and the token-layer source. */
 const PACKAGE = 'dsh-qq2006'
@@ -177,7 +180,7 @@ export function apply(ctx: ClientContext): void {
      * when the user picks dark afterwards. The last non-light choice is
      * remembered and restored the moment the skin is switched off.
      */
-    const enforceLight = (): void => {
+    const enforceLight = (notify: boolean): void => {
       if (!skinStore.get().enabled) return
       const current = ctx.theme.getTheme().preference
       if (current === 'light') return
@@ -187,6 +190,13 @@ export function apply(ctx: ClientContext): void {
         ctx.theme.setTheme(current)
       }
       ctx.theme.setTheme('light')
+      if (!notify) return
+      showNotice(
+        translateNow(ctx)(
+          'QQ2006 皮肤只支持浅色，要切换深色或跟随系统，请先关闭皮肤。',
+          'The QQ2006 skin is light-only. Turn the skin off to use dark mode or follow the system.',
+        ),
+      )
     }
 
     const sync = (): void => {
@@ -206,7 +216,7 @@ export function apply(ctx: ClientContext): void {
       if (state.retroFont) body.setAttribute(FONT_ATTRIBUTE, '1')
       else body.removeAttribute(FONT_ATTRIBUTE)
 
-      enforceLight()
+      enforceLight(false)
 
       // Same source id: calling again replaces the layer instead of stacking a
       // second one, which keeps memory and token order stable.
@@ -214,7 +224,7 @@ export function apply(ctx: ClientContext): void {
     }
 
     const offStore = skinStore.subscribe(sync)
-    const offTheme = ctx.on('theme/change', enforceLight)
+    const offTheme = ctx.on('theme/change', () => enforceLight(true))
     sync()
     return () => {
       offStore()
@@ -223,6 +233,7 @@ export function apply(ctx: ClientContext): void {
       disposeTokens = null
       restoreTheme?.()
       restoreTheme = null
+      dismissNotice()
       document.body.removeAttribute(SKIN_ATTRIBUTE)
       document.body.removeAttribute(FONT_ATTRIBUTE)
     }
@@ -237,6 +248,12 @@ export function apply(ctx: ClientContext): void {
       { name: 'settings.general.item', id: 'qq2006', order: 120 },
       () => <SkinRow ctx={ctx} />,
     ),
+  )
+
+  // `shell.overlay`: the light-only hint shown when the user tries another
+  // appearance while the skin is on.
+  ctx.slots.inject('shell.overlay', () =>
+    ctx.slots.register({ name: 'shell.overlay', id: 'qq2006-theme-notice', order: 890 }, () => <ThemeNotice />),
   )
 
   // `settings.section`: the skin center page (switch, presets, working previews).

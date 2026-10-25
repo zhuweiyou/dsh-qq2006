@@ -268,6 +268,47 @@ body[data-dsh-qq2006] :has(> [data-composer-card]) {
 }
 
 /* ------------------------------------------------------------------ */
+/* 3b. Light-only notice                                               */
+/* ------------------------------------------------------------------ */
+
+.qq06-notice {
+  position: fixed;
+  top: 56px;
+  left: 50%;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid #d6a400;
+  background: linear-gradient(180deg, #fffbe6, #ffe9a8);
+  color: #5a4300;
+  font: 12px 'SimSun', '宋体', Tahoma, sans-serif;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+  transform: translateX(-50%);
+  pointer-events: none;
+  animation: qq06-notice-in 0.16s ease-out;
+}
+.qq06-notice-icon {
+  display: block;
+  flex: none;
+  width: 14px;
+  height: 14px;
+  background: #ffcc00;
+  border: 1px solid #a67c00;
+}
+@keyframes qq06-notice-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -6px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* ------------------------------------------------------------------ */
 /* 4. Settings row                                                     */
 /* ------------------------------------------------------------------ */
 
