@@ -248,24 +248,23 @@ body[data-dsh-qq2006] [role='menu'] {
 }
 
 /*
- * Flush composer, without touching Host DOM.
+ * Composer card: square and flush with the column.
  *
- * The dock is our own element, so the container that lays it out can be found
- * with `:has()`. When the composer card is a sibling of the dock, it loses its
- * radius, side margins and max width, and the container loses the padding that
- * kept it inset — the card then spans the column like the dock does. On a
- * layout where the card is not a sibling these rules simply do not match.
+ * The Host authors `data-composer-card` on the card itself and sizes it from two
+ * of its own layout tokens. Both are public authoring hooks, so the 2006 chrome
+ * applies without touching a CSS-module class name:
+ *   - the card loses its radius, elevation and gains the classic 1px border;
+ *   - its container loses side clearance and the max width, so the card spans
+ *     the column exactly like the dock above it.
  */
-body[data-dsh-qq2006] :has(> .qq06-dock) {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-body[data-dsh-qq2006] :has(> .qq06-dock) > :not(.qq06-dock) {
+body[data-dsh-qq2006] [data-composer-card] {
+  border: 1px solid #9dc0e0 !important;
   border-radius: 0 !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-  max-width: none !important;
   box-shadow: none !important;
+}
+body[data-dsh-qq2006] :has(> [data-composer-card]) {
+  --dsh-composer-card-max-width: 100%;
+  --dsh-composer-side-clearance: 0px;
 }
 
 /* ------------------------------------------------------------------ */
