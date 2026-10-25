@@ -190,6 +190,7 @@ body[data-dsh-qq2006] [role='menu'] {
   display: flex;
   align-items: center;
   gap: 2px;
+  flex: none;
   height: 24px;
   margin-bottom: 0;
   padding: 0 6px;
@@ -263,6 +264,14 @@ body[data-dsh-qq2006] [data-composer-card] {
   border: 1px solid #9dc0e0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
+}
+/*
+ * The hero (new-session) composer overrides the stack gap to 8px, while the
+ * regular one keeps the 6px token. Pin both to the token so the -6px pull below
+ * lands exactly on the toolbar in either state, and never compress the strip.
+ */
+body[data-dsh-qq2006] :has(> .qq06-dock) {
+  gap: var(--dsh-composer-stack-gap, 6px) !important;
 }
 body[data-dsh-qq2006] :has(> [data-composer-card]) {
   --dsh-composer-card-max-width: 100%;
