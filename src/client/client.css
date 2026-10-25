@@ -191,9 +191,11 @@ body[data-dsh-qq2006] [role='menu'] {
   align-items: center;
   gap: 2px;
   height: 24px;
-  margin-bottom: 6px;
+  margin-bottom: 0;
   padding: 0 6px;
+  /* No bottom border: the composer card's top border closes the same box. */
   border: 1px solid #9dc0e0;
+  border-bottom: 0;
   background: linear-gradient(180deg, #fbfdff, #e6f1fb);
   font: 12px 'SimSun', '宋体', Tahoma, sans-serif;
   color: #1b4b78;
@@ -265,6 +267,12 @@ body[data-dsh-qq2006] [data-composer-card] {
 body[data-dsh-qq2006] :has(> [data-composer-card]) {
   --dsh-composer-card-max-width: 100%;
   --dsh-composer-side-clearance: 0px;
+  /*
+   * Our toolbar and this composer root are siblings in the Host's composer
+   * stack, which spaces its children with `--dsh-composer-stack-gap`. Pulling
+   * the composer up by exactly that gap joins the two boxes into one window.
+   */
+  margin-top: calc(-1 * var(--dsh-composer-stack-gap, 6px));
 }
 
 /* ------------------------------------------------------------------ */
@@ -300,6 +308,16 @@ body[data-dsh-qq2006] :has(> [data-composer-card]) {
     opacity: 1;
     transform: none;
   }
+}
+
+/*
+ * The queue dock now sits *above* the toolbar (queue order 20, toolbar 21), so
+ * its negative bottom margin — authored to tuck it under the composer — would
+ * pull the toolbar up into it. Only that margin is neutralized; the card keeps
+ * its own width and corners.
+ */
+body[data-dsh-qq2006] [data-queue-dock] {
+  margin-bottom: 0 !important;
 }
 
 /* ------------------------------------------------------------------ */

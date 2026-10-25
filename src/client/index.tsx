@@ -272,9 +272,13 @@ export function apply(ctx: ClientContext): void {
   )
 
   // `conversation.input.dock`: the classic small toolbar above the composer.
+  //
+  // Order 21 places it after the queue dock (20) and directly above the
+  // composer card, so the toolbar is the strip that touches the input box;
+  // queued messages stack above it.
   ctx.slots.inject('conversation.input.dock', () =>
     ctx.slots.register(
-      { name: 'conversation.input.dock', id: 'qq2006-toolbar', order: 10 },
+      { name: 'conversation.input.dock', id: 'qq2006-toolbar', order: 21 },
       () => <ComposerToolbar ctx={ctx} />,
     ),
   )
