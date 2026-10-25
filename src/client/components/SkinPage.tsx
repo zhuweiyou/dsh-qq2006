@@ -140,8 +140,8 @@ export function SkinPage(props: { ctx: ClientContext }): ReactNode {
           <div>
             <h3 className="qq06-h3">{t('装到哪里了', 'Where it shows up')}</h3>
             <ul className="qq06-list">
-              <li>{t('侧栏：企鹅图标、QQ2006 名称与底部换肤钮', 'Sidebar: penguin mark, QQ2006 name, palette button')}</li>
-              <li>{t('输入框上方：原版小工具栏', 'Above the composer: the original small toolbar')}</li>
+              <li>{t('侧栏：企鹅图标与 QQ2006 名称', 'Sidebar: penguin mark and QQ2006 name')}</li>
+              <li>{t('输入框：直角撑满整列，上方是原版小工具栏', 'Composer: square and edge-to-edge, with the original small toolbar above')}</li>
               <li>{t('设置 → 通用：本开关所在的行', 'Settings → General: the switch row')}</li>
               <li>{t('整站：配色、方角控件、经典滚动条与宋体', 'Shell-wide: palette, square controls, classic scrollbars, SimSun')}</li>
             </ul>

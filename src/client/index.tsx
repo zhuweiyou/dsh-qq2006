@@ -27,16 +27,16 @@
 import type { ReactNode } from 'react'
 
 import { ASSET_VARIABLES } from './assets'
+import { squareComposer } from './composer-shape'
 import { hostTokenVariables, paletteVariables, PALETTES, tokenOverrides } from './presets'
 import { installStorageSync, skinStore } from './store'
 import type { ClientContext } from './types'
 
 import stylesheet from './client.css'
 import { ComposerToolbar } from './components/ComposerToolbar'
-import { BrandMark, BrandName, FooterButton } from './components/SidebarBits'
+import { BrandMark, BrandName } from './components/SidebarBits'
 import { SkinPage } from './components/SkinPage'
 import { SkinRow } from './components/SkinRow'
-import { SkinTip } from './components/SkinTip'
 
 /** This package's name: the ModuleLoader id and the token-layer source. */
 const PACKAGE = 'dsh-qq2006'
@@ -166,6 +166,7 @@ export function apply(ctx: ClientContext): void {
   ctx.effect(() => {
     let disposeTokens: (() => void) | null = null
     let restoreTheme: (() => void) | null = null
+    let disposeComposer: (() => void) | null = null
 
     const sync = (): void => {
       const body = document.body
@@ -177,6 +178,8 @@ export function apply(ctx: ClientContext): void {
         disposeTokens = null
         restoreTheme?.()
         restoreTheme = null
+        disposeComposer?.()
+        disposeComposer = null
         return
       }
 
@@ -199,6 +202,10 @@ export function apply(ctx: ClientContext): void {
       // Same source id: calling again replaces the layer instead of stacking a
       // second one, which keeps memory and token order stable.
       disposeTokens = ctx.theme.overrideTokens(PACKAGE, tokenOverrides(PALETTES[state.preset]))
+
+      // The composer card is a hashed CSS-module component: tag it structurally
+      // so it renders square and edge-to-edge like the rest of the 2006 chrome.
+      if (disposeComposer === null) disposeComposer = squareComposer()
     }
 
     const off = skinStore.subscribe(sync)
@@ -209,6 +216,8 @@ export function apply(ctx: ClientContext): void {
       disposeTokens = null
       restoreTheme?.()
       restoreTheme = null
+      disposeComposer?.()
+      disposeComposer = null
       document.body.removeAttribute(SKIN_ATTRIBUTE)
       document.body.removeAttribute(FONT_ATTRIBUTE)
     }
@@ -254,18 +263,7 @@ export function apply(ctx: ClientContext): void {
   registerWhileEnabled(ctx, 'sidebar.brand.mark', () => <BrandMark />)
   registerWhileEnabled(ctx, 'sidebar.brand.name', () => <BrandName />)
 
-  // `sidebar.footer.action`: the palette-cycling button beside Settings.
-  ctx.slots.inject('sidebar.footer.action', () =>
-    ctx.slots.register(
-      { name: 'sidebar.footer.action', id: 'qq2006-palette', order: 10, label: () => labelOf(ctx) },
-      () => <FooterButton ctx={ctx} />,
-    ),
-  )
 
-  // `shell.overlay`: the yellow system tip that announces a change.
-  ctx.slots.inject('shell.overlay', () =>
-    ctx.slots.register({ name: 'shell.overlay', id: 'qq2006-tip', order: 900 }, () => <SkinTip ctx={ctx} />),
-  )
 }
 
 /**

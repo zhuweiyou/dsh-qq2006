@@ -855,6 +855,27 @@ body[data-dsh-qq2006] [role='menu'] {
 }
 
 /* ------------------------------------------------------------------ */
+/* 5b. Composer card                                                   */
+/* ------------------------------------------------------------------ */
+
+/*
+ * `composer-shape.ts` tags the Host's composer card (and the wrapper whose
+ * padding keeps it inset) from the editor upwards, because the card's class
+ * name is build-hashed. QQ2006 windows run square and flush with their column,
+ * so the card loses radius, side margins, max-width and elevation.
+ */
+body[data-dsh-qq2006] [data-qq06-square] {
+  border-radius: 0 !important;
+  max-width: none !important;
+  box-shadow: none !important;
+}
+body[data-dsh-qq2006] [data-qq06-pull] {
+  margin-left: var(--qq06-pull-left, 0px) !important;
+  margin-right: var(--qq06-pull-right, 0px) !important;
+  width: auto !important;
+}
+
+/* ------------------------------------------------------------------ */
 /* 6. Settings row and skin center                                     */
 /* ------------------------------------------------------------------ */
 
@@ -1210,68 +1231,4 @@ body[data-dsh-qq2006] [role='menu'] {
   background: #3fbf4a;
   border: 1px solid #1f7a2b;
 }
-.qq06-footer-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  height: 24px;
-  padding: 0 6px;
-  border: 1px solid #7f9db9;
-  border-radius: 0;
-  background: linear-gradient(#ffffff, #dceafa);
-  color: #0b2b4a;
-  font: 12px 'SimSun', '宋体', Tahoma, sans-serif;
-  cursor: pointer;
-}
-.qq06-footer-btn:hover {
-  background: linear-gradient(#ffffff, #c9e2fb);
-}
-.qq06-footer-swatch {
-  display: block;
-  width: 10px;
-  height: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  background: linear-gradient(135deg, var(--qq-title-from, #7fc9ff), var(--qq-title-to, #0b5cab));
-}
-.qq06-footer-text {
-  line-height: 1;
-}
 
-/* ------------------------------------------------------------------ */
-/* 9. Overlay tip                                                      */
-/* ------------------------------------------------------------------ */
-
-.qq06-tip {
-  position: fixed;
-  top: 52px;
-  right: 18px;
-  z-index: 1200;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border: 1px solid #d6a400;
-  background: linear-gradient(180deg, #fffbe6, #ffe9a8);
-  color: #5a4300;
-  font: 12px 'SimSun', '宋体', Tahoma, sans-serif;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
-  pointer-events: none;
-  animation: qq06-tip-in 0.16s ease-out;
-}
-.qq06-tip-icon {
-  display: block;
-  width: 14px;
-  height: 14px;
-  background: #ffcc00;
-  border: 1px solid #a67c00;
-}
-@keyframes qq06-tip-in {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}

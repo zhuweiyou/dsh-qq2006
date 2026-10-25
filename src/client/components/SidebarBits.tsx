@@ -1,17 +1,12 @@
 /**
- * Sidebar contributions: the penguin brand mark, the "QQ2006" name and the
- * palette-cycling footer button (the 2006 title-bar colour button, moved to
- * where this shell has room for it).
+ * Sidebar contributions: the penguin brand mark and the "QQ2006" name.
  *
- * All three render nothing while the skin is off, so the default UI stays
- * exactly as shipped.
+ * They render nothing while the skin is off, so the default UI stays exactly as
+ * shipped. Palette switching lives in Settings only.
  */
 import type { ReactNode } from 'react'
 
-import { translate, useLocale } from '../i18n'
-import { PALETTES, PRESET_LIST } from '../presets'
-import { skinStore, useSkin } from '../store'
-import type { ClientContext } from '../types'
+import { useSkin } from '../store'
 import { Penguin } from './ui'
 
 /** Replaces the brand mark while the skin is on. */
@@ -37,28 +32,3 @@ export function BrandName(): ReactNode {
   )
 }
 
-/** Cycles the palette; the trigger sits beside Settings. */
-export function FooterButton(props: { ctx: ClientContext }): ReactNode {
-  const { ctx } = props
-  const state = useSkin()
-  const t = translate(useLocale(ctx))
-  if (!state.enabled) return null
-
-  const current = PRESET_LIST.findIndex((item) => item.id === state.preset)
-  const next = PRESET_LIST[(current + 1) % PRESET_LIST.length] ?? PRESET_LIST[0]
-  const label = t('换肤', 'Skin')
-
-  return (
-    <button
-      type="button"
-      className="qq06-footer-btn"
-      title={`${label}：${PALETTES[state.preset]?.zh ?? ''} → ${next?.zh ?? ''}`}
-      onClick={() => {
-        if (next !== undefined) skinStore.patch({ preset: next.id })
-      }}
-    >
-      <span className="qq06-footer-swatch" />
-      <span className="qq06-footer-text">{label}</span>
-    </button>
-  )
-}
