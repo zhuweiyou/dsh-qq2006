@@ -1,8 +1,30 @@
 {
   "name": "dsh-qq2006",
   "version": "1.0.0",
-  "private": true,
   "description": "QQ2006 skin for the DeepSeek Harness Web UI: coral-blue palette, SimSun typography, classic controls, chat-window toolbar and a skin center with a pixel-accurate login window.",
+  "license": "MIT",
+  "author": {
+    "name": "zhuweiyou",
+    "url": "https://github.com/zhuweiyou"
+  },
+  "homepage": "https://github.com/zhuweiyou/dsh-qq2006",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhuweiyou/dsh-qq2006.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zhuweiyou/dsh-qq2006/issues"
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "dsh-plugin",
+    "qq2006",
+    "skin",
+    "theme",
+    "retro",
+    "web-ui"
+  ],
   "type": "module",
   "main": "lib/index.js",
   "exports": {
@@ -33,11 +55,15 @@
   },
   "scripts": {
     "build": "node scripts/build.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepack": "node scripts/build.mjs"
   },
   "devDependencies": {
     "@types/react": "^18.3.12",
     "esbuild": "^0.25.0",
     "typescript": "^5.7.3"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

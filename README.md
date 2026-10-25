@@ -21,15 +21,28 @@
 
 ## 安装
 
-```sh
-# 在本仓库目录构建产物
-node scripts/build.mjs
+### Desktop 版
 
-# 安装到当前 profile（安装时会链接本目录）
-dsh plugin add /Users/yiyi/work/dsh-qq2006
+在 DSH 桌面端的插件安装入口里**直接填写插件名称** `dsh-qq2006` 即可。
+
+### Web 版
+
+```sh
+dsh plugin --profile web add dsh-qq2006
 ```
 
-或在本会话中由 Agent 用 `plugin_manager` 的 `install_bundle` 指向本目录。装好后**刷新一次页面**（新插件的浏览器产物需要重新拉取），然后到 `设置 → 通用` 打开开关。
+包内已包含编译产物（`lib/`），装完即用，不需要再构建。升级同样是再执行一次 `add`。
+
+两版装完都**刷新一次页面**（新插件的浏览器产物需要重新拉取），然后到 `设置 → 通用` 打开「QQ2006 皮肤」。
+
+> 本地开发时也可以直接从本仓库目录安装，改完源码重跑 `npm run build` 即可，不需要重新安装：
+>
+> ```sh
+> npm install && npm run build
+> dsh plugin add /path/to/dsh-qq2006
+> ```
+>
+> 同一件事也可以交给 Agent，用 `plugin_manager` 的 `install_bundle` 指向该目录。
 
 ## 结构
 
