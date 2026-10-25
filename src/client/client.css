@@ -197,6 +197,9 @@ body[data-dsh-qq2006] [role='menu'] {
   /* No bottom border: the composer card's top border closes the same box. */
   border: 1px solid #9dc0e0;
   border-bottom: 0;
+  /* Flush with the column: no side rails, only the top line. */
+  border-left: 0;
+  border-right: 0;
   background: linear-gradient(180deg, #fbfdff, #e6f1fb);
   font: 12px 'SimSun', '宋体', Tahoma, sans-serif;
   color: #1b4b78;
@@ -262,6 +265,9 @@ body[data-dsh-qq2006] [role='menu'] {
  */
 body[data-dsh-qq2006] [data-composer-card] {
   border: 1px solid #9dc0e0 !important;
+  /* Flush with the column: keep the top separator and the bottom line only. */
+  border-left: 0 !important;
+  border-right: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
 }
