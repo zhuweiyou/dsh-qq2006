@@ -1,0 +1,8 @@
+# dsh-qq2006 bundle patch: insert the QQ2006 skin as one ordinary roster row.
+#
+# `insert` is required. A bare `{ id, name }` entry is an id-targeted overlay
+# that only rewrites an existing row, so nothing would be added.
+- insert:
+    - id: qq2006-skin
+      name: dsh-qq2006
+      config: {}
