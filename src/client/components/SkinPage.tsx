@@ -1,15 +1,14 @@
 /**
- * The skin center: a full settings page with the switch, four presets, the
- * typography option, and two working previews of the 2006 client.
+ * The skin center: a settings page with the switch, the four presets, the
+ * typography option and the reset action. Palette switching lives here and
+ * nowhere else.
  */
-import { useState, type ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 import { translate, useLocale } from '../i18n'
 import { PALETTES, PRESET_LIST, type PresetId } from '../presets'
 import { skinStore, useSkin } from '../store'
 import type { ClientContext } from '../types'
-import { ChatWindowPreview } from './ChatWindow'
-import { LoginWindowPreview } from './LoginWindow'
 import { Penguin, SkinSwitch } from './ui'
 
 /** The settings section page. */
@@ -17,7 +16,6 @@ export function SkinPage(props: { ctx: ClientContext }): ReactNode {
   const { ctx } = props
   const state = useSkin()
   const t = translate(useLocale(ctx))
-  const [tab, setTab] = useState<'chat' | 'login'>('chat')
   const palette = PALETTES[state.preset]
 
   return (
@@ -61,7 +59,7 @@ export function SkinPage(props: { ctx: ClientContext }): ReactNode {
         </div>
 
         <div className="qq06-card-body">
-          <div className="qq06-field-label qq06-field-label--block">{t('配色预设', 'Palette')}</div>
+          <div className="qq06-field-label">{t('配色预设', 'Palette')}</div>
           <div className="qq06-preset-grid" role="radiogroup" aria-label={t('配色预设', 'Palette')}>
             {PRESET_LIST.map((item) => (
               <button
@@ -95,43 +93,14 @@ export function SkinPage(props: { ctx: ClientContext }): ReactNode {
             />
             <span>
               {t('复古宋体', 'Retro SimSun text')}
-              <em>{t('用 12px 宋体还原当年的排版；关闭则沿用系统字体设置。', 'Uses 12px SimSun like the original client; off keeps your Host font settings.')}</em>
+              <em>
+                {t(
+                  '用 12px 宋体还原当年的排版；关闭则沿用系统字体设置。',
+                  'Uses 12px SimSun like the original client; off keeps your Host font settings.',
+                )}
+              </em>
             </span>
           </label>
-        </div>
-      </section>
-
-      <section className="qq06-card">
-        <div className="qq06-card-head qq06-card-head--plain">
-          <div className="qq06-card-heading">
-            <h2 className="qq06-h2">{t('效果预览', 'Preview')}</h2>
-            <p className="qq06-sub">
-              {t('原版素材按原生尺寸绘制，可直接在窗口里操作。', 'Drawn with the original artwork at native sizes — and it actually works.')}
-            </p>
-          </div>
-          <div className="qq06-tabs" role="tablist">
-            <button
-              type="button"
-              role="tab"
-              aria-selected={tab === 'chat'}
-              className={`qq06-tab${tab === 'chat' ? ' qq06-tab--active' : ''}`}
-              onClick={() => setTab('chat')}
-            >
-              {t('聊天窗口', 'Chat window')}
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={tab === 'login'}
-              className={`qq06-tab${tab === 'login' ? ' qq06-tab--active' : ''}`}
-              onClick={() => setTab('login')}
-            >
-              {t('登录窗口', 'Login window')}
-            </button>
-          </div>
-        </div>
-        <div className="qq06-preview">
-          {tab === 'chat' ? <ChatWindowPreview /> : <LoginWindowPreview />}
         </div>
       </section>
 
@@ -141,7 +110,7 @@ export function SkinPage(props: { ctx: ClientContext }): ReactNode {
             <h3 className="qq06-h3">{t('装到哪里了', 'Where it shows up')}</h3>
             <ul className="qq06-list">
               <li>{t('侧栏：企鹅图标与 QQ2006 名称', 'Sidebar: penguin mark and QQ2006 name')}</li>
-              <li>{t('输入框：直角撑满整列，上方是原版小工具栏', 'Composer: square and edge-to-edge, with the original small toolbar above')}</li>
+              <li>{t('输入框上方：原版小工具栏', 'Above the composer: the original small toolbar')}</li>
               <li>{t('设置 → 通用：本开关所在的行', 'Settings → General: the switch row')}</li>
               <li>{t('整站：配色、方角控件、经典滚动条与宋体', 'Shell-wide: palette, square controls, classic scrollbars, SimSun')}</li>
             </ul>

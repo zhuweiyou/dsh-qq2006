@@ -66,8 +66,8 @@ body[data-dsh-qq2006] a {
 }
 
 /* Text fields get the classic white field with a 1px steel border. The
-   composer is deliberately excluded: it is the one surface whose Host chrome
-   should stay intact. */
+   composer stays untouched: it is the one surface whose Host chrome must keep
+   its behavior and geometry. */
 body[data-dsh-qq2006] :where(input[type='text'], input[type='password'], input[type='search'], [role='dialog'] textarea) {
   background-color: #ffffff !important;
   border: 1px solid #7f9db9 !important;
@@ -77,7 +77,7 @@ body[data-dsh-qq2006] :where(input[type='text'], input[type='password'], input[t
 /* Windows and menus get the 2006 window border. */
 body[data-dsh-qq2006] [role='dialog'] {
   border: 1px solid #4a7ebb !important;
-  background-color: var(--qq-base, #eaf4fc) !important;
+  background-color: var(--qq-base, #e5f1fc) !important;
   box-shadow: 0 8px 24px rgba(8, 45, 90, 0.35) !important;
 }
 body[data-dsh-qq2006] [role='menu'] {
@@ -108,13 +108,6 @@ body[data-dsh-qq2006] [role='menu'] {
 }
 .qq06-btn:active {
   background: linear-gradient(to bottom, #97c5ec, #d2f8fd);
-}
-.qq06-btn--primary {
-  font-weight: 700;
-}
-.qq06-btn--mini {
-  min-width: 0;
-  padding: 0 4px;
 }
 .qq06-btn--wide {
   height: 24px;
@@ -154,7 +147,6 @@ body[data-dsh-qq2006] [role='menu'] {
   transition: left 0.12s ease-out;
 }
 .qq06-switch--on .qq06-switch-track {
-  background: #1f6fd0;
   background: var(--qq-brand, #1f6fd0);
 }
 .qq06-switch--on .qq06-switch-knob {
@@ -191,692 +183,93 @@ body[data-dsh-qq2006] [role='menu'] {
 }
 
 /* ------------------------------------------------------------------ */
-/* 3. Title band                                                       */
+/* 3. Composer dock                                                    */
 /* ------------------------------------------------------------------ */
 
-.qq06-title {
-  position: relative;
+.qq06-dock {
   display: flex;
+  align-items: center;
+  gap: 2px;
   height: 24px;
-  flex: none;
-  user-select: none;
+  margin-bottom: 6px;
+  padding: 0 6px;
+  border: 1px solid #9dc0e0;
+  background: linear-gradient(180deg, #fbfdff, #e6f1fb);
+  font: 12px 'SimSun', '宋体', Tahoma, sans-serif;
+  color: #1b4b78;
 }
-.qq06-title-left {
-  width: 64px;
-  flex: none;
-  background-image: var(--qq-i-title-left);
-  background-repeat: no-repeat;
-  background-position: left top;
+.qq06-dock-lead {
+  padding: 0 6px 0 2px;
+  color: #0b2b4a;
+  border-right: 1px solid #b7d2ea;
 }
-.qq06-title-center {
-  flex: 1;
-  background-image: var(--qq-i-title-center);
-  background-repeat: repeat-x;
-  background-position: left top;
-}
-.qq06-title-right {
-  width: 14px;
-  flex: none;
-  background-image: var(--qq-i-title-right);
-  background-repeat: no-repeat;
-  background-position: right top;
-}
-.qq06-title-text {
-  position: absolute;
-  left: 68px;
-  top: 4px;
-  color: #ffffff;
-  font: 700 12px 'SimSun', '宋体', Tahoma, sans-serif;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
-  white-space: nowrap;
-  pointer-events: none;
-}
-.qq06-title--chat .qq06-title-text {
-  left: 24px;
-  top: 5px;
-}
-.qq06-title-btns {
-  position: absolute;
-  right: 5px;
-  top: 4px;
-  display: flex;
-  gap: 1px;
-}
-.qq06-title-icon {
-  position: absolute;
-  left: 5px;
-  top: 5px;
-  width: 16px;
-  height: 16px;
-  background-image: var(--qq-i-im-icon);
-  background-repeat: no-repeat;
-}
-.qq06-tbtn {
-  display: block;
-  width: 16px;
-  height: 16px;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-.qq06-tbtn--min {
-  background-image: var(--qq-i-btn-min);
-}
-.qq06-tbtn--min:hover {
-  background-image: var(--qq-i-btn-min-hover);
-}
-.qq06-tbtn--min:active {
-  background-image: var(--qq-i-btn-min-down);
-}
-.qq06-tbtn--color {
-  background-image: var(--qq-i-btn-color);
-}
-.qq06-tbtn--color:hover {
-  background-image: var(--qq-i-btn-color-hover);
-}
-.qq06-tbtn--color:active {
-  background-image: var(--qq-i-btn-color-down);
-}
-.qq06-tbtn--close {
-  background-image: var(--qq-i-btn-close);
-}
-.qq06-tbtn--close:hover {
-  background-image: var(--qq-i-btn-close-hover);
-}
-.qq06-tbtn--close:active {
-  background-image: var(--qq-i-btn-close-down);
-}
-
-/* Chat variant: rounded IM strip. */
-.qq06-title--chat {
-  height: 26px;
-}
-.qq06-title--chat .qq06-title-left {
-  width: 25px;
-  background-image: var(--qq-i-im-top);
-  background-size: 50px 26px;
-  background-position: left top;
-}
-.qq06-title--chat .qq06-title-center {
-  background-image: linear-gradient(180deg, #8ed2ff 0%, #55b0f2 45%, #2e86d8 100%);
-}
-.qq06-title--chat .qq06-title-right {
-  width: 25px;
-  background-image: var(--qq-i-im-top);
-  background-size: 50px 26px;
-  background-position: right top;
-}
-.qq06-title--chat .qq06-tbtn {
-  width: 17px;
-  height: 16px;
-}
-.qq06-title--chat .qq06-tbtn--max {
-  background-image: var(--qq-i-im-max);
-}
-.qq06-title--chat .qq06-tbtn--max:hover {
-  background-image: var(--qq-i-im-max-hover);
-}
-.qq06-title--chat .qq06-tbtn--max:active {
-  background-image: var(--qq-i-im-max-down);
-}
-.qq06-title--chat .qq06-tbtn--min {
-  background-image: var(--qq-i-im-min);
-}
-.qq06-title--chat .qq06-tbtn--min:hover {
-  background-image: var(--qq-i-im-min-hover);
-}
-.qq06-title--chat .qq06-tbtn--min:active {
-  background-image: var(--qq-i-im-min-down);
-}
-.qq06-title--chat .qq06-tbtn--close {
-  background-image: var(--qq-i-im-close);
-}
-.qq06-title--chat .qq06-tbtn--close:hover {
-  background-image: var(--qq-i-im-close-hover);
-}
-.qq06-title--chat .qq06-tbtn--close:active {
-  background-image: var(--qq-i-im-close-down);
-}
-
-/* ------------------------------------------------------------------ */
-/* 4. Chat window                                                      */
-/* ------------------------------------------------------------------ */
-
-.qq06-im {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 560px;
-  min-width: 420px;
-  background: #4aa8ee;
-  border: 1px solid #2b6fb0;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 8px 20px rgba(8, 45, 90, 0.32);
-  font-family: 'SimSun', '宋体', Tahoma, sans-serif;
-  font-size: 12px;
-  color: #000000;
-  text-align: left;
-}
-
-.qq06-im-bigbar {
-  display: flex;
-  align-items: center;
-  height: 36px;
-  margin: 0 4px;
-  padding-left: 4px;
-  background-image: var(--qq-i-big-bg);
-  background-repeat: repeat-x;
-  background-position: left center;
-}
-.qq06-im-bigbtn {
-  display: inline-flex;
-  align-items: center;
-  height: 30px;
-  padding: 0 8px 0 28px;
-  border: 1px solid transparent;
-  color: #071e81;
-  font-weight: 700;
-  cursor: default;
-  background-repeat: no-repeat;
-  background-position: 2px center;
-}
-.qq06-im-bigbtn:hover {
-  border-color: #4688c9;
-  background-color: #82c7ff;
-}
-.qq06-im-bigbtn--msg {
-  background-image: var(--qq-i-big-msg);
-}
-.qq06-im-bigbtn--video {
-  background-image: var(--qq-i-big-video);
-}
-.qq06-im-bigbtn--audio {
-  background-image: var(--qq-i-big-audio);
-}
-.qq06-im-bigbtn--file {
-  background-image: var(--qq-i-big-file);
-}
-.qq06-im-bigbtn--3d {
-  background-image: var(--qq-i-big-3d);
-}
-.qq06-im-bigbtn--invite {
-  background-image: var(--qq-i-big-invite);
-}
-
-.qq06-im-body {
-  display: flex;
-  gap: 6px;
-  min-height: 0;
-  padding: 0 8px 8px;
-}
-
-.qq06-im-chat {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  min-width: 0;
-  height: 336px;
-  background: #ffffff;
-  border: 1px solid #356faf;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.qq06-im-friend {
-  display: flex;
-  flex: none;
-  align-items: flex-start;
-  gap: 5px;
-  padding: 2px;
-  background: linear-gradient(to bottom, #ffffff, #b6d5f5);
-  border-bottom: 1px solid #84a6c6;
-  color: #071e81;
-  line-height: 1.4;
-}
-.qq06-im-friend img {
-  flex: none;
-  border: 1px solid #7fa9d2;
-}
-
-.qq06-im-msgs {
-  flex: 1;
-  min-height: 0;
-  padding: 5px 6px;
-  overflow: hidden;
-}
-.qq06-im-msg {
-  margin-bottom: 7px;
-}
-.qq06-im-msg-head {
-  color: #210f95;
-}
-.qq06-im-msg--mine .qq06-im-msg-head {
-  color: #2d794b;
-}
-.qq06-im-msg-time {
-  padding-left: 8px;
-  color: #000000;
-  font-size: 11px;
-}
-.qq06-im-msg-body {
-  padding-left: 15px;
-  color: #000000;
-  line-height: 1.45;
-}
-
-.qq06-im-smallbar {
-  display: flex;
-  flex: none;
-  align-items: center;
-  gap: 4px;
-  height: 20px;
-  padding-left: 4px;
-  background-image: var(--qq-i-small-bg);
-  background-repeat: repeat-x;
-  background-position: left center;
-  border-top: 1px solid #c6dced;
-}
-.qq06-im-smallbtn {
+.qq06-dock-icon {
   display: block;
   width: 18px;
   height: 18px;
   background-repeat: no-repeat;
   background-position: center;
+  cursor: default;
 }
-.qq06-im-smallbtn--font {
+.qq06-dock-icon:hover {
+  background-color: #cfe6fb;
+  box-shadow: inset 0 0 0 1px #7fa9d2;
+}
+.qq06-dock-icon--font {
   background-image: var(--qq-i-small-font);
 }
-.qq06-im-smallbtn--face {
+.qq06-dock-icon--face {
   background-image: var(--qq-i-small-face);
 }
-.qq06-im-smallbtn--other {
+.qq06-dock-icon--other {
   background-image: var(--qq-i-small-other);
 }
-.qq06-im-smallbtn--picture {
+.qq06-dock-icon--picture {
   background-image: var(--qq-i-small-picture);
 }
-.qq06-im-smallbtn--catch {
+.qq06-dock-icon--catch {
   background-image: var(--qq-i-small-catch);
 }
-.qq06-im-smallbtn--scene {
+.qq06-dock-icon--scene {
   background-image: var(--qq-i-small-scene);
 }
-.qq06-im-smallbtn--bag {
+.qq06-dock-icon--bag {
   background-image: var(--qq-i-small-bag);
 }
-.qq06-im-smallbtn--ptt {
+.qq06-dock-icon--ptt {
   background-image: var(--qq-i-small-ptt);
 }
-
-.qq06-im-input {
-  display: flex;
-  flex: none;
-  align-items: flex-start;
-  gap: 1px;
-  height: 62px;
-  padding: 4px 5px;
-  background: #ffffff;
-  border-top: 1px solid #d5e3f0;
-  color: #000000;
-}
-.qq06-caret {
-  display: inline-block;
-  width: 1px;
-  height: 13px;
-  margin-top: 2px;
-  background: #000000;
-  animation: qq06-blink 1s steps(1) infinite;
-}
-@keyframes qq06-blink {
-  50% {
-    opacity: 0;
-  }
-}
-
-.qq06-im-actions {
-  display: flex;
-  flex: none;
-  align-items: center;
-  gap: 4px;
-  padding: 0 4px 4px;
-}
-.qq06-im-action {
-  height: 20px;
-  padding: 0 6px;
-  border: 1px solid #00558e;
-  background: linear-gradient(to bottom, #ffffff, #9fd4ff);
-  color: #0b2b4a;
-  line-height: 18px;
-  cursor: default;
-}
-.qq06-im-action--send {
-  font-weight: 700;
-  border-color: #00558e;
-  background-image: var(--qq-i-im-button);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-color: transparent;
-}
-.qq06-im-action--send:hover {
-  background-image: var(--qq-i-im-button-hover);
-}
-.qq06-im-action--send:active {
-  background-image: var(--qq-i-im-button-down);
-}
-
-.qq06-im-side {
-  display: flex;
-  flex: none;
-  flex-direction: column;
-  width: 134px;
-  border: 1px solid #356faf;
-  background: #eaf4ff;
-  overflow: hidden;
-}
-.qq06-im-sidebtn:hover {
-  background-image: var(--qq-i-side-hover), var(--qq-i-side-menu-hover);
-}
-.qq06-im-sidebtn {
-  display: block;
-  flex: none;
-  height: 20px;
-  padding-left: 6px;
-  border-bottom: 1px solid #a9c8e6;
-  background-image: var(--qq-i-side), var(--qq-i-side-menu);
-  background-position: left center, right center;
-  background-repeat: no-repeat, no-repeat;
-  background-size: 50px 20px, 33px 20px;
-  color: #0b2b4a;
-  line-height: 20px;
-  cursor: default;
-}
-.qq06-im-portrait {
-  position: relative;
-  display: flex;
-  flex: none;
-  align-items: center;
-  justify-content: center;
-  height: 116px;
-  background: linear-gradient(180deg, #cfe6fb, #9cc9ef);
-  border-bottom: 1px solid #a9c8e6;
-}
-.qq06-im-portrait img {
-  width: 72px;
-  height: 72px;
-  border: 1px solid #7fa9d2;
-  image-rendering: pixelated;
-}
-.qq06-im-portrait--mine {
-  height: 74px;
-}
-.qq06-im-portrait-badge {
-  position: absolute;
-  right: 2px;
-  bottom: 2px;
-  padding: 0 3px;
-  background: #ff7a00;
-  color: #ffffff;
-  font-size: 10px;
-}
-.qq06-im-zone {
-  flex: 1;
-  min-height: 0;
-  padding: 2px;
-  background: #f6f6f6;
-  color: #0f0657;
-  line-height: 1.45;
-}
-
-/* ------------------------------------------------------------------ */
-/* 5. Login window                                                     */
-/* ------------------------------------------------------------------ */
-
-.qq06-login {
-  position: relative;
-  width: 325px;
-  flex: none;
-  background: #ecf6ff;
-  border: 1px solid #0b5cab;
-  box-shadow: 0 8px 20px rgba(8, 45, 90, 0.32);
-  font-family: 'SimSun', '宋体', Tahoma, sans-serif;
-  font-size: 12px;
-  color: #0b2b4a;
-  text-align: left;
-  user-select: none;
-}
-.qq06-xpbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 26px;
-  padding: 0 3px 0 6px;
-  background: linear-gradient(180deg, #3f9bf0 0%, #0a53ad 55%, #0a5fc0 100%);
-  color: #ffffff;
-  font-weight: 700;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
-}
-.qq06-xpbar-btns {
-  display: flex;
-  gap: 2px;
-}
-.qq06-xpbtn {
-  position: relative;
-  display: block;
-  width: 18px;
-  height: 16px;
-  border: 1px solid #ffffff;
-  border-radius: 2px;
-  background: linear-gradient(135deg, #2f8fe8, #7fc0ff);
-}
-.qq06-xpbtn--min::after {
-  content: '';
-  position: absolute;
-  left: 3px;
-  bottom: 4px;
-  width: 8px;
-  height: 2px;
-  background: #ffffff;
-}
-.qq06-xpbtn--max::after {
-  content: '';
-  position: absolute;
-  inset: 3px;
-  border: 1px solid #ffffff;
-}
-.qq06-xpbtn--close {
-  background: linear-gradient(135deg, #d9552a, #f08a5f);
-}
-.qq06-xpbtn--close::before,
-.qq06-xpbtn--close::after {
-  content: '';
-  position: absolute;
-  left: 7px;
-  top: 1px;
-  width: 2px;
-  height: 12px;
-  background: #ffffff;
-}
-.qq06-xpbtn--close::before {
-  transform: rotate(45deg);
-}
-.qq06-xpbtn--close::after {
-  transform: rotate(-45deg);
-}
-
-.qq06-login-banner {
-  height: 47px;
-  background-image: var(--qq-i-login-banner);
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: 324px 47px;
-}
-
-.qq06-login-form {
-  margin: 6px;
-  padding: 14px 12px 8px;
-  background: linear-gradient(180deg, #e4f3ff, #f0f8ff 18%, #f0f8ff 82%, #e4f3ff);
-  border: 1px solid #2f74c5;
-}
-.qq06-field {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  margin-bottom: 15px;
-}
-.qq06-field-label {
-  flex: none;
-  width: 55px;
-  color: #0b2b4a;
-}
-.qq06-field-label--block {
-  display: block;
-  width: auto;
-  margin-bottom: 6px;
-  color: #4a6b8a;
-}
-.qq06-field-control {
-  position: relative;
-  display: flex;
+.qq06-dock-spacer {
   flex: 1;
 }
-.qq06-input {
-  width: 150px;
-  height: 18px;
-  padding: 0 2px;
-  font: 12px 'SimSun', '宋体', Tahoma, sans-serif;
-  color: #000000;
-  background: #ffffff;
-  border: 1px solid #7f9db9;
-  outline: none;
+.qq06-dock-meta {
+  color: #3f6d99;
+  font-size: 11px;
 }
-.qq06-input--qq {
-  padding-right: 20px;
-}
-.qq06-field:focus-within .qq06-dropdown {
-  background-image: var(--qq-i-dropdown-active);
-}
-.qq06-dropdown {
-  position: absolute;
-  right: 1px;
-  top: 1px;
-  width: 17px;
-  height: 18px;
-  background-image: var(--qq-i-dropdown);
-  background-repeat: no-repeat;
-  background-position: center;
-  pointer-events: none;
-}
-.qq06-link {
-  margin-left: 6px;
-  color: #0b5cab;
-  text-decoration: underline;
-  white-space: nowrap;
-}
-.qq06-checks {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 4px;
-}
-.qq06-check {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
-}
-.qq06-check input {
-  margin: 0;
-}
-.qq06-advanced {
-  margin-top: 8px;
-  padding: 6px;
-  background: #ffffff;
-  border: 1px solid #a9c8e6;
-  line-height: 1.6;
-}
-.qq06-hint {
-  margin-top: 6px;
-  padding: 3px 6px;
-  border: 1px solid;
-}
-.qq06-hint--warn {
-  color: #8a3b00;
-  background: #fff3d6;
-  border-color: #d6a400;
-}
-.qq06-hint--ok {
-  color: #1c5d24;
-  background: #e9f8e9;
-  border-color: #4c9a4c;
-}
-.qq06-login-actions {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px;
-}
-.qq06-spacer {
-  flex: 1;
-}
-.qq06-login-mask {
-  position: absolute;
-  inset: 26px 0 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(236, 246, 255, 0.94);
-}
-.qq06-login-busy {
-  text-align: center;
-}
-.qq06-login-busy p {
-  margin: 8px 0;
-  font-weight: 700;
-  color: #0b5cab;
-}
-.qq06-dots::after {
-  content: '';
-  animation: qq06-dots 1.2s steps(4) infinite;
-}
-@keyframes qq06-dots {
-  0% {
-    content: '';
-  }
-  25% {
-    content: '.';
-  }
-  50% {
-    content: '..';
-  }
-  75% {
-    content: '...';
-  }
-}
-
-/* ------------------------------------------------------------------ */
-/* 5b. Composer card                                                   */
-/* ------------------------------------------------------------------ */
 
 /*
- * `composer-shape.ts` tags the Host's composer card (and the wrapper whose
- * padding keeps it inset) from the editor upwards, because the card's class
- * name is build-hashed. QQ2006 windows run square and flush with their column,
- * so the card loses radius, side margins, max-width and elevation.
+ * Flush composer, without touching Host DOM.
+ *
+ * The dock is our own element, so the container that lays it out can be found
+ * with `:has()`. When the composer card is a sibling of the dock, it loses its
+ * radius, side margins and max width, and the container loses the padding that
+ * kept it inset — the card then spans the column like the dock does. On a
+ * layout where the card is not a sibling these rules simply do not match.
  */
-body[data-dsh-qq2006] [data-qq06-square] {
+body[data-dsh-qq2006] :has(> .qq06-dock) {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+body[data-dsh-qq2006] :has(> .qq06-dock) > :not(.qq06-dock) {
   border-radius: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
   max-width: none !important;
   box-shadow: none !important;
 }
-body[data-dsh-qq2006] [data-qq06-pull] {
-  margin-left: var(--qq06-pull-left, 0px) !important;
-  margin-right: var(--qq06-pull-right, 0px) !important;
-  width: auto !important;
-}
 
 /* ------------------------------------------------------------------ */
-/* 6. Settings row and skin center                                     */
+/* 4. Settings row                                                     */
 /* ------------------------------------------------------------------ */
 
 .qq06-row {
@@ -917,6 +310,39 @@ body[data-dsh-qq2006] [data-qq06-pull] {
   line-height: 1.5;
 }
 
+/* ------------------------------------------------------------------ */
+/* 5. Sidebar bits                                                     */
+/* ------------------------------------------------------------------ */
+
+.qq06-brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.qq06-brand-penguin {
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
+}
+.qq06-brand-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'SimSun', '宋体', Tahoma, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--dsw-alias-label-primary, #10243a);
+}
+.qq06-brand-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: #3fbf4a;
+  border: 1px solid #1f7a2b;
+}
+
+/* ------------------------------------------------------------------ */
+/* 6. Skin center page                                                 */
+/* ------------------------------------------------------------------ */
+
 .qq06-page {
   display: flex;
   flex-direction: column;
@@ -949,9 +375,9 @@ body[data-dsh-qq2006] [data-qq06-pull] {
 }
 .qq06-lead {
   max-width: 64ch;
+  margin: 0;
   color: var(--dsw-alias-label-secondary, #4a6b8a);
   line-height: 1.7;
-  margin: 0;
 }
 .qq06-card {
   padding: 16px;
@@ -967,10 +393,6 @@ body[data-dsh-qq2006] [data-qq06-pull] {
   display: flex;
   align-items: center;
   gap: 12px;
-}
-.qq06-card-head--plain {
-  justify-content: space-between;
-  margin-bottom: 12px;
 }
 .qq06-card-heading {
   flex: 1;
@@ -1016,6 +438,12 @@ body[data-dsh-qq2006] [data-qq06-pull] {
   margin-top: 16px;
   padding-top: 14px;
   border-top: 1px dashed var(--dsw-alias-border-l1, #dfe6ee);
+}
+.qq06-field-label {
+  display: block;
+  width: auto;
+  margin-bottom: 6px;
+  color: var(--qq-label2, #4a6b8a);
 }
 .qq06-preset-grid {
   display: flex;
@@ -1091,30 +519,6 @@ body[data-dsh-qq2006] [data-qq06-pull] {
   font-size: 12px;
   font-style: normal;
 }
-.qq06-tabs {
-  display: flex;
-  gap: 4px;
-  flex: none;
-}
-.qq06-tab {
-  padding: 4px 10px;
-  border: 1px solid var(--dsw-alias-border-l1, #dfe6ee);
-  background: transparent;
-  color: var(--dsw-alias-label-secondary, #4a6b8a);
-  font: 12px 'SimSun', '宋体', Tahoma, sans-serif;
-  cursor: pointer;
-}
-.qq06-tab--active {
-  border-color: var(--qq-brand, #1f6fd0);
-  background: var(--qq-brand, #1f6fd0);
-  color: #ffffff;
-}
-.qq06-preview {
-  display: flex;
-  justify-content: center;
-  padding: 6px 0 2px;
-  overflow-x: auto;
-}
 .qq06-card--meta {
   background: var(--dsw-alias-bg-layer-2, #f7fafc);
 }
@@ -1137,98 +541,3 @@ body[data-dsh-qq2006] [data-qq06-pull] {
   font-size: 11px;
   line-height: 1.7;
 }
-
-/* ------------------------------------------------------------------ */
-/* 7. Composer dock                                                    */
-/* ------------------------------------------------------------------ */
-
-.qq06-dock {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  height: 24px;
-  margin-bottom: 6px;
-  padding: 0 6px;
-  border: 1px solid #9dc0e0;
-  background: linear-gradient(180deg, #fbfdff, #e6f1fb);
-  font: 12px 'SimSun', '宋体', Tahoma, sans-serif;
-  color: #1b4b78;
-}
-.qq06-dock-lead {
-  padding: 0 6px 0 2px;
-  color: #0b2b4a;
-  border-right: 1px solid #b7d2ea;
-}
-.qq06-dock-icon {
-  display: block;
-  width: 18px;
-  height: 18px;
-  background-repeat: no-repeat;
-  background-position: center;
-  cursor: default;
-}
-.qq06-dock-icon:hover {
-  background-color: #cfe6fb;
-  box-shadow: inset 0 0 0 1px #7fa9d2;
-}
-.qq06-dock-icon--font {
-  background-image: var(--qq-i-small-font);
-}
-.qq06-dock-icon--face {
-  background-image: var(--qq-i-small-face);
-}
-.qq06-dock-icon--other {
-  background-image: var(--qq-i-small-other);
-}
-.qq06-dock-icon--picture {
-  background-image: var(--qq-i-small-picture);
-}
-.qq06-dock-icon--catch {
-  background-image: var(--qq-i-small-catch);
-}
-.qq06-dock-icon--scene {
-  background-image: var(--qq-i-small-scene);
-}
-.qq06-dock-icon--bag {
-  background-image: var(--qq-i-small-bag);
-}
-.qq06-dock-icon--ptt {
-  background-image: var(--qq-i-small-ptt);
-}
-.qq06-dock-spacer {
-  flex: 1;
-}
-.qq06-dock-meta {
-  color: #3f6d99;
-  font-size: 11px;
-}
-
-/* ------------------------------------------------------------------ */
-/* 8. Sidebar bits                                                     */
-/* ------------------------------------------------------------------ */
-
-.qq06-brand {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-.qq06-brand-penguin {
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
-}
-.qq06-brand-name {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-family: 'SimSun', '宋体', Tahoma, sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: var(--dsw-alias-label-primary, #10243a);
-}
-.qq06-brand-dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  background: #3fbf4a;
-  border: 1px solid #1f7a2b;
-}
-

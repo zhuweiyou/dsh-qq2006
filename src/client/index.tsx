@@ -15,8 +15,9 @@
  * 3. When enabled, sets `body[data-dsh-qq2006]`, forces the light preference and
  *    stacks a token layer through `ctx.theme.overrideTokens` — the sanctioned
  *    recolour path, so nothing is hardcoded over the Host's own palette.
- * 4. Registers five slots: the General-settings row, the skin-center page, the
- *    composer toolbar, the sidebar brand/name/palette button and the overlay tip.
+ * 4. Registers four slots: the General-settings row, the skin-center page, the
+ *    composer toolbar, and the sidebar brand mark/name (the last two only while
+ *    the skin is on, so the shipped brand returns the moment it is switched off).
  *
  * Everything is created inside `apply` and disposed with `ctx.effect`, so
  * disabling the plugin (or HMR) leaves no stylesheet, attribute, token layer or
@@ -27,7 +28,6 @@
 import type { ReactNode } from 'react'
 
 import { ASSET_VARIABLES } from './assets'
-import { squareComposer } from './composer-shape'
 import { hostTokenVariables, paletteVariables, PALETTES, tokenOverrides } from './presets'
 import { installStorageSync, skinStore } from './store'
 import type { ClientContext } from './types'
@@ -166,7 +166,6 @@ export function apply(ctx: ClientContext): void {
   ctx.effect(() => {
     let disposeTokens: (() => void) | null = null
     let restoreTheme: (() => void) | null = null
-    let disposeComposer: (() => void) | null = null
 
     const sync = (): void => {
       const body = document.body
@@ -178,8 +177,6 @@ export function apply(ctx: ClientContext): void {
         disposeTokens = null
         restoreTheme?.()
         restoreTheme = null
-        disposeComposer?.()
-        disposeComposer = null
         return
       }
 
@@ -202,10 +199,6 @@ export function apply(ctx: ClientContext): void {
       // Same source id: calling again replaces the layer instead of stacking a
       // second one, which keeps memory and token order stable.
       disposeTokens = ctx.theme.overrideTokens(PACKAGE, tokenOverrides(PALETTES[state.preset]))
-
-      // The composer card is a hashed CSS-module component: tag it structurally
-      // so it renders square and edge-to-edge like the rest of the 2006 chrome.
-      if (disposeComposer === null) disposeComposer = squareComposer()
     }
 
     const off = skinStore.subscribe(sync)
@@ -216,8 +209,6 @@ export function apply(ctx: ClientContext): void {
       disposeTokens = null
       restoreTheme?.()
       restoreTheme = null
-      disposeComposer?.()
-      disposeComposer = null
       document.body.removeAttribute(SKIN_ATTRIBUTE)
       document.body.removeAttribute(FONT_ATTRIBUTE)
     }

@@ -1,10 +1,8 @@
 /**
- * Small shared chrome pieces: the square QQ switch, the 24px title band and the
- * preset dots.
+ * Small shared chrome pieces: the square QQ switch and the preset dots.
  *
- * Everything is a `<span>` or a real `<button>` with its own behaviour; the
- * title band is decorative, so it never steals focus inside someone else's
- * settings panel.
+ * Everything is a real `<button>` with its own behaviour, so it never steals
+ * focus inside someone else's settings panel.
  */
 import type { ReactNode } from 'react'
 
@@ -32,30 +30,6 @@ export function SkinSwitch(props: {
       </span>
       <span className="qq06-switch-text">{checked ? '已开启' : '已关闭'}</span>
     </button>
-  )
-}
-
-/**
- * The 24px window title band.
- *
- * `panel` uses the original three-slice main-panel artwork (the left slice
- * carries the "QQ 2006" lettering); `chat` uses the rounded IM strip.
- */
-export function TitleBar(props: { variant: 'panel' | 'chat'; title: string; icon?: boolean }): ReactNode {
-  const { variant, title, icon = false } = props
-  return (
-    <div className={`qq06-title qq06-title--${variant}`} aria-hidden="true">
-      <span className="qq06-title-left" />
-      <span className="qq06-title-center" />
-      <span className="qq06-title-right" />
-      {icon ? <span className="qq06-title-icon" /> : null}
-      <span className="qq06-title-text">{title}</span>
-      <span className="qq06-title-btns">
-        <span className="qq06-tbtn qq06-tbtn--min" />
-        {variant === 'chat' ? <span className="qq06-tbtn qq06-tbtn--max" /> : <span className="qq06-tbtn qq06-tbtn--color" />}
-        <span className="qq06-tbtn qq06-tbtn--close" />
-      </span>
-    </div>
   )
 }
 
