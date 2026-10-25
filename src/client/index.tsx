@@ -250,10 +250,12 @@ export function apply(ctx: ClientContext): void {
     ),
   )
 
-  // `shell.overlay`: the light-only hint shown when the user tries another
-  // appearance while the skin is on.
-  ctx.slots.inject('shell.overlay', () =>
-    ctx.slots.register({ name: 'shell.overlay', id: 'qq2006-theme-notice', order: 890 }, () => <ThemeNotice />),
+  // `settings.general.item`: the light-only hint. It renders just above the
+  // Appearance row — inside the settings dialog, where the user actually clicks
+  // the other appearance. The frame-wide overlay layer sits at z-index 20 while
+  // the dialog is 1000, so a floating notice could never be visible there.
+  ctx.slots.inject('settings.general.item', () =>
+    ctx.slots.register({ name: 'settings.general.item', id: 'qq2006-theme-hint', order: 9 }, () => <ThemeNotice />),
   )
 
   // `settings.section`: the skin center page (switch, presets, working previews).
