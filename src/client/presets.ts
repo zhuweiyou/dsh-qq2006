@@ -205,6 +205,9 @@ export function hostTokenVariables(palette: Palette): Record<string, string> {
     '--dsw-alias-state-success-primary': palette.success,
     '--dsw-alias-state-warn-primary': palette.warn,
     '--dsw-specific-sidebar-fill': palette.sidebar,
+    // The user message bubble. QQ2006 draws its own text on plain white, so the
+    // Host's tinted bubble fill is replaced instead of tinted further.
+    '--dsw-specific-bubble': '#ffffff',
   }
 }
 
